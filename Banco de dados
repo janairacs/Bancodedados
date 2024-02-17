@@ -1,0 +1,139 @@
+Exercícios Banco de Dados
+
+1. Crie uma tabela chamada "alunos" com os seguintes campos: id (inteiro), nome (texto), idade (inteiro) e curso (texto).
+
+-- Criação da tabela "alunos"
+CREATE TABLE alunos (
+    id INT PRIMARY KEY, -- Campo ID é a chave primária
+    nome TEXT,  
+    idade INT,  
+    curso TEXT  
+);
+
+2. Insira pelo menos 5 registros de alunos na tabela que você criou no exercício anterior.
+
+-- Inserção de registros na tabela "alunos"
+INSERT INTO alunos (id, nome, idade, curso) VALUES
+(1, 'João', 22, 'Engenharia'), 
+(2, 'Maria', 25, 'Medicina'), 
+(3, 'Pedro', 20, 'Direito'), 
+(4, 'Ana', 21, 'Administração'), 
+(5, 'Lucas', 23, 'Engenharia'); 
+
+
+3. Consultas Básicas
+Escreva consultas SQL para realizar as seguintes tarefas:
+a) Selecionar todos os registros da tabela "alunos".
+
+-- Consulta para selecionar todos os registros da tabela "alunos"
+SELECT * FROM alunos;
+
+b) Selecionar o nome e a idade dos alunos com mais de 20 anos.
+
+-- Consulta para selecionar o nome e a idade dos alunos com mais de 20 anos
+SELECT nome, idade FROM alunos WHERE idade > 20;
+
+c) Selecionar os alunos do curso de "Engenharia" em ordem alfabética.
+
+-- Consulta para selecionar os alunos do curso de "Engenharia" em ordem alfabética
+SELECT * FROM alunos WHERE curso = 'Engenharia' ORDER BY nome;
+
+d) Contar o número total de alunos na tabela
+
+-- Consulta para contar o número total de alunos na tabela
+SELECT COUNT(*) as total_alunos FROM alunos;
+
+4. Atualização e Remoção
+
+a) Atualize a idade de um aluno específico na tabela.
+
+-- Atualização da idade de um aluno específico na tabela
+UPDATE alunos SET idade = 24 WHERE nome = 'João';
+
+b) Remova um aluno pelo seu ID.
+
+-- Remoção de um aluno pelo seu ID
+DELETE FROM alunos WHERE id = 3;
+
+5. Criar uma Tabela e Inserir Dados
+
+Crie uma tabela chamada "clientes" com os campos: id (chave primária), nome (texto), idade (inteiro) e saldo (float). Insira alguns registros de clientes na tabela.
+
+-- Criação da tabela "clientes"
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nome TEXT,
+    idade INT,
+    saldo FLOAT
+);
+
+-- Inserção de registros na tabela "clientes"
+INSERT INTO clientes (id, nome, idade, saldo) VALUES
+(1, 'Carlos', 35, 1500.50),
+(2, 'Juliana', 28, 2000.75),
+(3, 'Marcos', 40, 1800.20),
+(4, 'Laura', 33, 1200.60);
+
+
+6. Consultas e Funções Agregadas
+Escreva consultas SQL para realizar as seguintes tarefas:
+
+a) Selecione o nome e a idade dos clientes com idade superior a 30 anos.
+
+-- Consulta para selecionar o nome e a idade dos clientes com idade superior a 30 anos
+SELECT nome, idade FROM clientes WHERE idade > 30;
+
+b) Calcule o saldo médio dos clientes.
+
+-- Consulta para calcular o saldo médio dos clientes
+SELECT AVG(saldo) as saldo_medio FROM clientes;
+
+c) Encontre o cliente com o saldo máximo.
+
+-- Consulta para encontrar o cliente com o saldo máximo
+SELECT * FROM clientes ORDER BY saldo DESC LIMIT 1;
+
+d) Conte quantos clientes têm saldo acima de 1000.
+
+-- Consulta para contar quantos clientes têm saldo acima de 1000
+SELECT COUNT(*) as clientes_saldo_acima_1000 FROM clientes WHERE saldo > 1000;
+
+7. Atualização e Remoção com Condições
+
+a) Atualize o saldo de um cliente específico.
+
+-- Atualização do saldo de um cliente específico
+UPDATE clientes SET saldo = 1700.35 WHERE nome = 'Carlos';
+
+
+b) Remova um cliente pelo seu ID.
+
+-- Remoção de um cliente pelo seu ID
+DELETE FROM clientes WHERE id = 4;
+
+8. Junção de Tabelas
+Crie uma segunda tabela chamada "compras" com os campos: id (chave primária), cliente_id (chave estrangeira referenciando o id
+da tabela "clientes"), produto (texto) e valor (real). Insira algumas compras associadas a clientes existentes na tabela "clientes".
+Escreva uma consulta para exibir o nome do cliente, o produto e o valor de cada compra.
+
+
+-- Criação da tabela compras
+CREATE TABLE compras (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    produto TEXT,
+    valor REAL,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- Inserção de registros na tabela compras
+INSERT INTO compras (id, cliente_id, produto, valor) VALUES
+(1, 1, 'Camiseta', 25.99),
+(2, 2, 'Calça Jeans', 45.50),
+(3, 1, 'Tênis', 80.00),
+(4, 3, 'Óculos de Sol', 120.75);
+
+-- Consulta para exibir o nome do cliente, o produto e o valor de cada compra, utilizando junção entre as tabelas "clientes" e "compras"
+SELECT c.nome, p.produto, p.valor 
+FROM clientes c 
+JOIN compras p ON c.id = p.cliente_id;
